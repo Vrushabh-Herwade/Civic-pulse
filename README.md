@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏙️ CivicPulse — AI-Powered Citizen Grievance Redressal System
 
-## Getting Started
+> **Empowering citizens, streamlining governance.**
+> A next-generation civic engagement platform that uses AI to automatically categorize, prioritizing, and route citizen complaints to the right department.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌟 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🚀 For Citizens
+*   **Smart Reporting**: Submit complaints with photos and location. Our AI automatically detects the category (e.g., Pothole, Garbage) and urgency.
+*   **Real-time Tracking**: Track the status of your complaints (Submitted -> In Progress -> Resolved) with a transparent timeline.
+*   **Gamification**: Earn XP and badges (e.g., "Civic Hero", "Guardian") for reporting valid issues.
+*   **Interactive UI**: Experience a fluid, 3D interactive background and modern glassmorphism design.
+*   **AI Voice Calling**: Talk directly to our AI agent (ElevenLabs Convai) on the website to report issues hands-free.
+*   **Email Integration**: Report issues simply by sending an email to our bot address.
+*   **Telegram Bot**: Chat with our AI assistant on Telegram to report issues or check status.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🛡️ For Administrators
+*   **AI Triage**: Automatically prioritizes critical issues (e.g., "Open manhole") over low-priority ones.
+*   **Smart Routing**: Directs complaints to the specific department (e.g., "Health", "Roads", "Electrical").
+*   **Dashboard**: Visualize city-wide data with heatmaps, charts, and trend analysis.
+*   **Auto-Escalation**: Complaints not resolved within the SLA are automatically escalated to higher officials.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+*   **Frontend**: Next.js 14, React, Tailwind CSS, Framer Motion
+*   **Backend**: Next.js API Routes (Serverless)
+*   **Database**: Supabase (PostgreSQL)
+*   **AI/ML**: Google Gemini (Pro 1.5) for text/image classification
+*   **Authentication**: Supabase Auth
+*   **Deployment**: Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Getting Started
 
-## Deploy on Vercel
+### Prerequisites
+*   Node.js 18+
+*   npm or yarn
+*   Supabase Account
+*   Google Cloud Account (for Gemini API)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/yourusername/civic-pulse.git
+    cd civic-pulse
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
+
+3.  **Environment Setup**
+    Create a `.env.local` file in the root directory and add the following:
+    ```env
+    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+    GEMINI_API_KEY=your_gemini_api_key
+    EMAIL_USER=your_email@gmail.com
+    EMAIL_PASS=your_app_password
+    NEXT_PUBLIC_APP_URL=http://localhost:3000
+    ```
+
+4.  **Database Setup**
+    Run the SQL scripts provided in `supabase-schema.sql` and `supabase-gamification.sql` in your Supabase SQL Editor.
+
+5.  **Run Locally**
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 🌍 Deployment
+
+The easiest way to deploy is using **Vercel**:
+
+1.  Push your code to GitHub.
+2.  Import the project into Vercel.
+3.  Add the environment variables (from step 3 above) in the Vercel Project Settings.
+4.  Click **Deploy**.
+
+For detailed instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md).
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1.  Fork the project
+2.  Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+
