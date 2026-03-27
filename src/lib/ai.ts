@@ -1,8 +1,8 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 import { ClassificationResult, ComplaintCategory, DEPARTMENT_MAP } from "./types";
 
-// Initialize Gemini
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+// Initialize Groq
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "" });
 
 const CLASSIFICATION_PROMPT = `You are a civic complaint classification AI for an Indian city municipal system.
 
@@ -14,24 +14,35 @@ Analyze the following citizen complaint and return a JSON object with these exac
 - "estimatedPeopleAffected": estimated number of people affected (integer)
 - "summary": a one-sentence summary of the issue and its severity
 
-Guidelines for urgency:
-- CRITICAL: immediate danger to life, major infrastructure failure, flooding, collapse
-- HIGH: safety hazard, broken for weeks, affecting many people, worsening
-- MEDIUM: ongoing issue, inconvenience, needs repair within days
-- LOW: minor cosmetic issue, suggestion, request
+Guidelines for urgency (IMPORTANT - follow these closely):
+
+- CRITICAL: Immediate threat to life or property
+  Examples: fire, gas leak, building collapse, open manhole, exposed electrical wires, major flooding, bridge damage, dangerous structural failure, toxic spill
+
+- HIGH: Serious safety hazard or severe disruption
+  Examples: large pothole on main road, burst water pipe, multiple non-working streetlights in dark area, overflowing sewage, fallen tree blocking road, severe road damage
+
+- MEDIUM: Ongoing inconvenience or minor safety concern
+  Examples: single broken streetlight, small pothole, garbage not collected for 2-3 days, drainage blockage, minor water leak
+
+- LOW: Minor cosmetic issue or general suggestion
+  Examples: paint peeling, small cracks, noise complaint (one-time), request for new installation, minor graffiti
 
 Return ONLY the JSON object, no markdown, no extra text.`;
 
 export async function classifyComplaint(title: string, description: string): Promise<ClassificationResult> {
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+        const chatCompletion = await groq.chat.completions.create({
+            messages: [
+                { role: "system", content: CLASSIFICATION_PROMPT },
+                { role: "user", content: `Complaint Title: ${title}\nComplaint Description: ${description}` },
+            ],
+            model: "llama-3.3-70b-versatile",
+            temperature: 0.2,
+            response_format: { type: "json_object" },
+        });
 
-        const result = await model.generateContent([
-            CLASSIFICATION_PROMPT,
-            `\nComplaint Title: ${title}\nComplaint Description: ${description}`,
-        ]);
-
-        const text = result.response.text().trim();
+        const text = chatCompletion.choices[0]?.message?.content?.trim() || "{}";
 
         // Strip markdown code fences if present
         const jsonStr = text.replace(/^```json?\n?/i, "").replace(/\n?```$/i, "").trim();
@@ -54,12 +65,12 @@ export async function classifyComplaint(title: string, description: string): Pro
             summary: parsed.summary || `Detected civic issue: ${title}`,
         };
     } catch (error) {
-        console.error("Gemini classification failed, using fallback:", error);
+        console.error("Groq classification failed, using fallback:", error);
         return fallbackClassify(title, description);
     }
 }
 
-// ===== KEYWORD FALLBACK (used if Gemini API fails) =====
+// ===== KEYWORD FALLBACK (used if Groq API fails) =====
 function fallbackClassify(title: string, description: string): ClassificationResult {
     const text = `${title} ${description}`.toLowerCase();
 

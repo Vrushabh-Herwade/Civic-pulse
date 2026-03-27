@@ -42,7 +42,6 @@
 *   npm or yarn
 *   Supabase Account
 *   Google Cloud Account (for Gemini API)
-
 ### Installation
 
 1.  **Clone the repository**
@@ -61,7 +60,7 @@
     ```env
     NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
     NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
-    GEMINI_API_KEY=your_gemini_api_key
+    GROQ_API_KEY=your_groq_api_key
     EMAIL_USER=your_email@gmail.com
     EMAIL_PASS=your_app_password
     NEXT_PUBLIC_APP_URL=http://localhost:3000
@@ -109,4 +108,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-
+Built with ❤️ for the Hackathon.
